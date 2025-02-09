@@ -27,6 +27,7 @@ sudo chmod -R 777 /mnt/filestore
 sudo mount -o nolock ${IP_ADDRESS}:/reposhare /mnt/filestore
 
 # Add the mount to /etc/fstab
-echo "${IP_ADDRESS}:/reposhare /mnt/filestore nfs nfs rw,nosuid,nodev,noatime,nolock" | sudo tee -a /etc/fstab
+sudo echo "${IP_ADDRESS}:/reposhare /mnt/filestore nfs nfs rw,nosuid,nodev,noatime,nolock" | sudo tee -a /etc/fstab
+sudo systemctl daemon-reload
 # remount the filestore
 sudo mount -o remount /mnt/filestore
