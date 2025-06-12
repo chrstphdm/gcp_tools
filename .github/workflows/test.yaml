@@ -1,0 +1,29 @@
+name: Validate Terraform Configurations
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  validate_clusters_types:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        cluster_type: ['slurm', 'kub']
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.5.7"
+
+      - name: Terraform Init
+        run: terraform -chdir=${{ matrix.cluster_type }} init
+
+      - name: Terraform Validate
+        run: terraform -chdir=${{ matrix.cluster_type }} validate
